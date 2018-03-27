@@ -2,7 +2,26 @@
   "tests": "./test/*_test.js",
   "timeout": 10000,
   "output": "./output",
-  "helpers": {},
+  "helpers": {
+    "WebDriverIO" : {
+      "url": "http://codecept.io",
+      "browser": "chrome",
+      "smartWait": 5000,
+      "restart": false,
+      "windowSize": "maximize",
+      "timeouts": {
+        "script": 60000,
+        "page load": 10000
+      },
+      "reporters": ["dot", "allure"],
+      "reporterOptions": {
+        "allure": {
+          "outputDir": "allure-results"
+        }
+      }
+    }
+  }
+  ,
   "include": {
     "I": "./steps/steps_file.js"
   },

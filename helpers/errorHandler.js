@@ -8,48 +8,54 @@ let support = container.support();
 let UserPage = container.support('UserPage');
 let mocha = container.mocha();
 
-module.exports = function(done) {
+module.exports = function (done) {
+    event.dispatcher.on(event.step.started, async function (step) {
+        let client = await container.helpers('WebDriverIO');
+        let url = await client.browser.getUrl();
+        console.log(`${step.actor} ${step.name} ${step.args} at page ${url}`);
+        allure.createStep(`${step.actor} ${step.name} ${step.args} at page ${url}`, () => {
+        })();
+    });
+
     event.dispatcher.on(event.test.failed, async function (test, error) {
         let client = await container.helpers('WebDriverIO');
         let step;
         let url;
         let driverScreenData;
         let screenShot;
-
-
-
-            client.browser.getUrl()
-                .then(_url => {
-                    url = _url;
-                    client.browser.screenshot().then(scr=>{
-                        driverScreenData = scr.value;
-                        handleError(error);
-                    })
-                        .catch(error=>{
+        console.log(test);
+        client.browser.getUrl()
+            .then(_url => {
+                url = _url;
+                client.browser.screenshot().then(scr => {
+                    driverScreenData = scr.value;
+                    handleError(error);
+                })
+                    .catch(error => {
                         handleError(error);
                     });
-                });
+            });
 
+        function handleError(error) {
+            console.error('test ' + test + 'fail');
+            console.error(error);
+            console.error('at url: ' + url);
 
-
-
-        function handleError() {
-            console.error(' ❌ test fail');
-            console.error('url: ' + url);
-            console.log(driverScreenData.length);
-
-            if (driverScreenData.length > 0){
+            if (driverScreenData.length > 0) {
                 screenShot = new Buffer(
                     driverScreenData,
                     "base64"
                 );
 
                 allure.createAttachment(
-                    "error screenShot",
+                    "❌ error screenShot",
                     screenShot
                 );
             }
-            allure.createStep(' ❌ error: '+ error.name, () => {})();
+            try {
+                allure.createStep(' ❌ error: '+ error.name, () => {throw new Error(error)})();
+            } catch (err){}
+
         }
     });
     done()

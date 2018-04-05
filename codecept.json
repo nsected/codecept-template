@@ -1,17 +1,24 @@
 {
-  "tests": "./test/*_test.js",
-  "timeout": 10000,
   "output": "./output",
   "helpers": {
     "WebDriverIO": {
       "url": "http://localhost",
-      "browser": "chrome"
+      "browser": "chrome",
+      "reporters": "[allure']"
     }
   },
   "include": {
     "I": "./steps_file.js"
   },
-  "bootstrap": false,
-  "mocha": {},
+  "mocha": {
+    "reporter_options": {
+      "mocha-allure-reporter": "-"
+    }
+  },
+  "bootstrap": "./helpers/errorHandler.js",
+  "teardown": null,
+  "hooks": [],
+  "tests": "./test/*_test.js",
+  "timeout": 10000,
   "name": "codecept_test"
 }

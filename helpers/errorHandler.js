@@ -23,21 +23,21 @@ module.exports = function (done) {
         let url;
         let driverScreenData;
         let screenShot;
-        console.log(test);
+        let failedStep = test.steps.filter(step => step.status === 'failed');
         client.browser.getUrl()
             .then(_url => {
                 url = _url;
                 client.browser.screenshot().then(scr => {
                     driverScreenData = scr.value;
-                    handleError(error);
+                    handleError(error, failedStep[0]);
                 })
                     .catch(error => {
-                        handleError(error);
+                        handleError(error, failedStep[0]);
                     });
             });
 
-        function handleError(error) {
-            console.error('test ' + test + 'fail');
+        function handleError(error, failedStep) {
+            console.error('test ' + test.title + 'fail');
             console.error(error);
             console.error('at url: ' + url);
 
@@ -53,7 +53,8 @@ module.exports = function (done) {
                 );
             }
             try {
-                allure.createStep(' ❌ error: '+ error.name, () => {throw new Error(error)})();
+console.log(failedStep);
+                allure.createStep(`❌ ${failedStep.actor} ${failedStep.name} ${failedStep.args} at page ${url}`, () => {throw error})();
             } catch (err){}
 
         }

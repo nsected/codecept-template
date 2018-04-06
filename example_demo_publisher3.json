@@ -14,11 +14,8 @@
     "I": "./steps/steps_file.js"
   },
   "mocha": {
-    "reporter_options": {
-      "mocha-allure-reporter": "-"
-    }
   },
-  "bootstrap": "./helpers/errorHandler.js",
+  "bootstrap": "./helpers/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/demo_publisher_*.js",

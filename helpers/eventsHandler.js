@@ -12,7 +12,7 @@ module.exports = function (done) {
     event.dispatcher.on(event.step.started, async function (step) {
         let client = await container.helpers('WebDriverIO');
         let url = await client.browser.getUrl();
-        console.log(`${step.actor} ${step.name} ${step.args} at page ${url}`);
+        console.log(`       ${step.actor} ${step.name} ${step.args} at page ${url}`);
         allure.createStep(`${step.actor} ${step.name} ${step.args} at page ${url}`, () => {
         })();
     });

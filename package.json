@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test codecept fail": "codeceptjs run --steps  --reporter mocha-allure-reporter  --config ./example_fail.json",
-    "test codecept demo publisher3": "codeceptjs run --steps  --reporter mocha-allure-reporter   --config ./example_demo_publisher3.json",
+    "test codecept fail": "multi='spec=- mocha-allure-reporter=-' codeceptjs run  --reporter mocha-multi  --config ./example_fail.json",
+    "test codecept demo publisher3": "multi='spec=- mocha-allure-reporter=-' codeceptjs run  --reporter mocha-multi  --config ./example_demo_publisher3.json",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium-standalone": "selenium-standalone start"
-
   },
   "author": "",
   "license": "ISC",
@@ -16,12 +15,10 @@
     "allure-commandline": "^2.5.0",
     "codeceptjs": "^1.1.7",
     "mocha-allure-reporter": "^1.3.2",
+    "mocha-multi": "^1.0.1",
     "rimraf": "^2.6.2",
     "selenium-standalone": "^6.13.0",
-    "webdriverio": "^4.12.0"
-  },
-  "devDependencies": {
-    "wdio-allure-reporter": "^0.6.0",
+    "webdriverio": "^4.12.0",
     "wdio-dot-reporter": "0.0.9",
     "wdio-mocha-framework": "^0.5.13",
     "wdio-selenium-standalone-service": "0.0.10"

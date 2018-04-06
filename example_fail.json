@@ -4,11 +4,14 @@
     "WebDriverIO": {
       "url": "http://localhost",
       "browser": "chrome",
-      "reporters": "[allure']"
+      "smartWait": 30000,
+      "host": "seleniumgrid.srv.local",
+      "port": "4444",
+      "path": "/wd/hub"
     }
   },
   "include": {
-    "I": "./steps_file.js"
+    "I": "./steps/steps_file.js"
   },
   "mocha": {
     "reporter_options": {
@@ -18,7 +21,7 @@
   "bootstrap": "./helpers/errorHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./test/*_test.js",
+  "tests": "./tests/*_fail.js",
   "timeout": 10000,
   "name": "codecept_test"
 }

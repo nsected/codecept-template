@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test wdio": "./node_modules/.bin/wdio wdio.conf.js",
-    "test codecept js": "codeceptjs run --steps  --reporter mocha-allure-reporter",
+    "test codecept fail": "codeceptjs run --steps  --reporter mocha-allure-reporter  --config ./example_fail.json",
+    "test codecept demo publisher3": "codeceptjs run --steps  --reporter mocha-allure-reporter   --config ./example_demo_publisher3.json",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium-standalone": "selenium-standalone start"
 

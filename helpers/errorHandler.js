@@ -37,9 +37,14 @@ module.exports = function (done) {
             });
 
         function handleError(error, failedStep) {
-            console.error('test ' + test.title + 'fail');
-            console.error(error);
-            console.error('at url: ' + url);
+            console.error('');
+            console.error('❌');
+            console.error('❌         test ' + test.title + 'fail');
+            console.error('❌         ' + error);
+            console.error('❌         at url: ' + url);
+            console.error(`❌         on step: ${failedStep.actor} ${failedStep.name} ${failedStep.args}`);
+            console.error('❌');
+            console.error('');
 
             if (driverScreenData.length > 0) {
                 screenShot = new Buffer(
@@ -53,7 +58,6 @@ module.exports = function (done) {
                 );
             }
             try {
-console.log(failedStep);
                 allure.createStep(`❌ ${failedStep.actor} ${failedStep.name} ${failedStep.args} at page ${url}`, () => {throw error})();
             } catch (err){}
 

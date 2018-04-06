@@ -9,6 +9,12 @@ let UserPage = container.support('UserPage');
 let mocha = container.mocha();
 
 module.exports = function (done) {
+    event.dispatcher.on(event.test.started, async function () {
+        let minConfig = Object.assign({}, config);
+        delete minConfig.mocha;
+        allure.createAttachment('config', JSON.stringify(minConfig))
+    });
+
     event.dispatcher.on(event.step.started, async function (step) {
         let client = await container.helpers('WebDriverIO');
         let url = await client.browser.getUrl();
@@ -19,7 +25,6 @@ module.exports = function (done) {
 
     event.dispatcher.on(event.test.failed, async function (test, error) {
         let client = await container.helpers('WebDriverIO');
-        let step;
         let url;
         let driverScreenData;
         let screenShot;

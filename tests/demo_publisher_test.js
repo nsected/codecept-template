@@ -1,17 +1,10 @@
 
 Feature('demo publisher');
 
-function text(text) {
-    return `//*[text() = '${text}']`
-}
-function contains(text) {
-    return `//*[contains(text(), '${text}')]`
-}
-
 Scenario('demo publisher ',  (I) => {
-    I.amOnPage('/');
-    I.click(text('Go!'));
-    I.seeElement(text('Balance'));
-    I.seeElement(text('Chargeback notification'));
-    I.seeElement(text('€637'));
+    I.amOnPage('/signin');
+    I.clickOn('button[type="submit"]');
+    I.seeText('Balance');
+    I.seeText('Chargeback notification');
+    I.seeText('€637');
 });

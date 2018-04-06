@@ -1,0 +1,24 @@
+{
+  "output": "./output",
+  "helpers": {
+    "WebDriverIO": {
+      "url": "https://test-demo-merchant.xsolla.com",
+      "browser": "chrome",
+      "smartWait": 30000,
+      "host": "seleniumgrid.srv.local",
+      "port": "4444",
+      "path": "/wd/hub"
+    }
+  },
+  "include": {
+    "I": "./steps/steps_file.js",
+    "customActionsPage": "./pages/customActions.js"
+  },
+  "mocha": {},
+  "bootstrap": "./helpers/eventsHandler.js",
+  "teardown": null,
+  "hooks": [],
+  "tests": "./tests/demo_publisher_*.js",
+  "timeout": 360000,
+  "name": "codecept_test"
+}

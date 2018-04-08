@@ -5,7 +5,7 @@
       "url": "https://test-demo-merchant.xsolla.com",
       "browser": "chrome",
       "smartWait": 30000,
-      "host": "seleniumgrid.srv.local",
+      "host": "localhost",
       "port": "4444",
       "path": "/wd/hub"
     }

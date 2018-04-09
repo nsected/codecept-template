@@ -1,7 +1,7 @@
 const {spawn} = require('child_process');
 const fs = require("fs");
 const path = require("path");
-const configName = 'example_demo_publisher3.json';
+const configName = 'publisher3.json';
 const baseConfig = require(path.join(process.cwd(), configName));
 const test_folder = baseConfig.asyncTestsFolder;
 let testsQueue = [];

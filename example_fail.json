@@ -18,7 +18,7 @@
       "mocha-allure-reporter": "-"
     }
   },
-  "bootstrap": "./helpers/errorHandler.js",
+  "bootstrap": "./helpers/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/*_fail.js",

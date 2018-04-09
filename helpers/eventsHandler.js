@@ -9,21 +9,12 @@ let UserPage = container.support('UserPage');
 let mocha = container.mocha();
 let cookies = [];
 try {
-    cookies = require('../tmp/cookies.json')
+    cookies = require('../tmp/cookies.json').catch(()=>{})
 } catch (error){}
 
 // console.log(cookies);
 
 module.exports = function (done) {
-    event.dispatcher.on(event.test.started, async function (test) {
-        // let client = await container.helpers('WebDriverIO');
-        // console.log(config.helpers.WebDriverIO.url);
-        // await client.browser.getUrl(config.helpers.WebDriverIO.url);
-        // console.log(cookies.length);
-        // console.log(client.browser);
-        // await client.browser.setCookie(cookies);
-    });
-
     event.dispatcher.on(event.test.started, async function () {
         let minConfig = Object.assign({}, config);
         delete minConfig.mocha;

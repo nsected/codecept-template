@@ -5,11 +5,12 @@
       "url": "https://demo-merchant.xsolla.com",
       "browser": "chrome",
       "smartWait": 30000,
-      "host": "localhost",
+      "host": "seleniumgrid.srv.local",
       "port": "4444",
       "path": "/wd/hub",
       "desiredCapabilities": {
         "chromeOptions": {
+          "args": [ "--headless", "--disable-gpu", "--window-size=1920,1080" ]
         }
       }
     }
@@ -20,7 +21,7 @@
   "bootstrap": "./helpers/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./tests/demo_publisher_login.js",
+  "tests": "./tests/demo_publisher_0.js",
   "timeout": 36000,
   "name": "codecept_test",
   "asyncTestsFolder": "./tests/demo_publisher/",

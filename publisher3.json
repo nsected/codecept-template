@@ -24,5 +24,19 @@
   "timeout": 36000,
   "name": "codecept_test",
   "asyncTestsFolder": "./tests/publisher3/",
-  "loginScript": "./tests/publisher_login.js"
+  "loginScript": "./tests/publisher_login.js",
+
+  "multiple": {
+    "login": {
+      "browsers": [
+        "chrome"
+      ]
+    },
+    "main": {
+      "browsers": [
+        "chrome",
+        "firefox"
+      ]
+    }
+  }
 }

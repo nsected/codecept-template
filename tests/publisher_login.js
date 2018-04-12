@@ -8,8 +8,8 @@ Feature('demo publisher login');
 Scenario('demo publisher ',  async (I) => {
     I.clearCookie();
     I.amOnPage('/signin');
-    I.fillField('#email', '');
-    I.fillField('#password', '');
+    I.fillField('#email', 'd.mustaev@xsolla.com');
+    I.fillField('#password', 'BElyashek28434884');
     I.clickOn('//button[@type="submit"]');
     I.waitForElement('//*[@class="panel-body balance-data"]', 30);
     let cookie = await I.grabCookie();

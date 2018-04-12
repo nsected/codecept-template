@@ -1,3 +1,13 @@
+//todo: ограничение потоков
+//todo: разделить проект на хелперы и ядро проекта
+//todo: cli команды для скрипта запуска тестов
+//todo: поддержка всех опций запуска тестов из codecept.js в cli
+//todo: поддержка всех опций запуска тестов из codecept.js в конфиге
+//todo: выложить проект в локальный репозиторий
+//todo: одни сценарии для синхронных и асинхронных тестов
+//todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
+//todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)
+
 const {spawn} = require('child_process');
 const fs = require("fs");
 const path = require("path");
@@ -21,33 +31,41 @@ for (let i = 0; i < testsList.length; i++) {
 
 console.log(path.basename(loginScript));
 
-spawnProcess({
+spawnProcess(
+    {
     name: path.basename(loginScript),
     testFile: loginScript,
     status: 'waiting'
-}, processQueue, configName)
+    },
+    'login',
+    processQueue,
+    configName
+)
     .then(()=>{
     testsQueue.forEach(test=>{
-        spawnProcess(test, processQueue, configName)
+        spawnProcess(test, 'main', processQueue, configName)
             .catch(error=>{})
     });
 }).catch(error=>{});
 
 
 
-function spawnProcess(test, processQueue, configName) {
+function spawnProcess(test, multipleConfig, processQueue, configName) {
     return new Promise((resolve, reject) =>{
         processQueue[test.name] = spawn(
             `npx`,
             [
                 `codeceptjs`,
-                `run`,
+                `run-multiple`,
+                `${multipleConfig}`,
                 `--reporter`,
                 `mocha-multi`,
                 `--config`,
                 `./${configName}`,
                 `--override`,
-                `{"tests": "${test.testFile}"}`
+                `{
+                    "tests": "${test.testFile}"
+                }`
             ],
             {
                 cwd: process.cwd(),

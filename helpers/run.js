@@ -78,6 +78,20 @@ spawnProcess(
         console.error(error)
     });
 
+function buildCodeceptjsArguments(overrideArguments, configPath, testFile) {
+    let baseArguments = [
+        `codeceptjs`,
+        'run',
+        `--reporter`,
+        `mocha-multi`,
+        `--config`,
+        configPath,
+        `--override`,
+        `{
+            "tests": "${testFile}"
+        }`
+    ]
+}
 
 function spawnProcess(test, processQueue, configName) {
     return new Promise((resolve, reject) => {

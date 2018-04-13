@@ -1,7 +1,7 @@
 Feature('demo_publisher_1');
 
 Scenario('demo publisher ',  async (I) => {
-    cookies = require('../../tmp/cookies.json');
+    cookies = require('../tmp/cookies.json');
     await I.amOnPage('/signin');
     await I.waitForElement('button[type="submit"]', 30);
     await I.wait(10);

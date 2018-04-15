@@ -64,7 +64,6 @@ function handleTestsQueue(testsQueue, processQueue) {
         if (testsQueue === false) resolve(true);
 
         testsQueue.forEach(test => {
-            console.log(test);
             spawnProcess(test, processQueue)
                 .then(() => {
                     resolve(true)
@@ -95,11 +94,10 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScrip
 
     }
     else {
-        if (!config.loginScript) throw new Error('must provide tests scripts');
+        if (!config.loginScript) throw new Error('must provide test scripts');
         testsList = glob.sync(config.tests, {});
     }
 
-    console.log(testsList);
     for (let i = 0; i < testsList.length; i++) {
         asyncTestsQueue[i] = {
             name: path.basename(testsList[i]),

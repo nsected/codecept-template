@@ -1,23 +1,24 @@
 
-//todo: cli команды для скрипта запуска тестов
-//todo: поддержка всех опций запуска тестов из codecept.js в cli
 
 
-//todo: ограничение потоков
+
 //todo: разделить проект на хелперы и ядро проект
 //todo: выложить проект в локальный репозиторий
+//todo: написать инструкцию
 
-//todo: поддержка мультибраузерности из асинхронной опции кодцепта
-//todo: поддержка всех опций запуска тестов из codecept.js в конфиге
-//todo: одни сценарии для синхронных и асинхронных тестов
+//todo: ограничение потоков
+//todo: сделать гитигнор
+
 //todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
-//todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)
+//todo: поддержка мультибраузерности из асинхронной опции кодцепта
+//todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)?
 //todo: статистика по тестам?
 
 const program = require('commander');
 const {spawn} = require('child_process');
 const fs = require("fs");
 const path = require("path");
+const glob = require("glob");
 
 if (process.argv.length <= 2) {
     console.log(`run test with command run and option --config `);
@@ -26,89 +27,131 @@ if (process.argv.length <= 2) {
 program
     .command('run')
     .option('-c, --config [file]', 'configuration file to be used')
+    .option('-o, --override [value]', 'override provided config options')
+    .option('-a, --async', 'run tests asynchronously')
     .action(function (cmd) {
-        configPath = cmd.config;
-        run(configPath);
+        let configPath = cmd.config;
+        let override = cmd.override;
+        let isAsync = cmd.async;
+        run(configPath, isAsync, override);
     });
-
 program.parse(process.argv);
 
-
-
-
-
-
-function run(configPath) {
-    const baseConfig = require(path.join(process.cwd(), configPath));
-    const test_folder = baseConfig.asyncTestsFolder;
-    const testsList = fs.readdirSync(test_folder);
-    const loginScript = baseConfig.loginScript;
-    let testsQueue = [];
+async function run(configPath, isAsync, overrideArguments) {
+    const config = require(path.join(process.cwd(), configPath));
+    const loginScript = config.loginScript;
     let processQueue = {};
-    process.env.multi = 'spec=- mocha-allure-reporter=-';
+    let loginTestQueue;
+    let testsQueue;
+    process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
 
+    if (isAsync) {
+        loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, true);
+        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, false)
+    }
+    else {
+        loginTestQueue = false;
+        testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
+    }
 
-for (let i = 0; i < testsList.length; i++) {
-    testsQueue[i] = {
-        name: testsList[i],
-        testFile: test_folder + testsList[i],
-        status: 'waiting'
-
-    };
+    await handleTestsQueue(loginTestQueue, processQueue);
+    await handleTestsQueue(testsQueue, processQueue)
 }
 
-spawnProcess(
-    {
-        name: path.basename(loginScript),
-        testFile: loginScript,
-        status: 'waiting'
-    },
-    processQueue,
-    configPath
-)
-    .then(() => {
+
+function handleTestsQueue(testsQueue, processQueue) {
+    return new Promise((resolve, reject) => {
+        if (testsQueue === false) resolve(true);
+
         testsQueue.forEach(test => {
-            spawnProcess(test, processQueue, configPath)
+            console.log(test);
+            spawnProcess(test, processQueue)
+                .then(() => {
+                    resolve(true)
+                })
                 .catch(error => {
-                    console.error(error)
+                    reject(error)
                 })
         });
-    })
-    .catch(error => {
-        console.error(error)
     });
-
-function buildCodeceptjsArguments(overrideArguments, configPath, testFile) {
-    let baseArguments = [
-        `codeceptjs`,
-        'run',
-        `--reporter`,
-        `mocha-multi`,
-        `--config`,
-        configPath,
-        `--override`,
-        `{
-            "tests": "${testFile}"
-        }`
-    ]
 }
 
-function spawnProcess(test, processQueue, configName) {
+function makeSyncTestsQueue(configPath, overrideArguments, config) {
+    return [{
+        name: config.name,
+        status: 'waiting',
+        overrideArguments: overrideArguments,
+        configPath: configPath,
+        specificTestFile: false
+    }]
+}
+
+function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScript) {
+    let asyncTestsQueue = [];
+    let testsList;
+    if (isLoginScript) {
+        if (!config.loginScript) throw new Error('must provide login script');
+        testsList = glob.sync(config.loginScript, {});
+
+    }
+    else {
+        if (!config.loginScript) throw new Error('must provide tests scripts');
+        testsList = glob.sync(config.tests, {});
+    }
+
+    console.log(testsList);
+    for (let i = 0; i < testsList.length; i++) {
+        asyncTestsQueue[i] = {
+            name: path.basename(testsList[i]),
+            status: 'waiting',
+            overrideArguments: overrideArguments,
+            configPath: configPath,
+            specificTestFile: testsList[i]
+        };
+    }
+    return asyncTestsQueue;
+}
+
+function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile) {
+    let baseArguments = {
+        'codeceptjs': 'run',
+        '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
+        '--config': configPath,
+        '--override': {}
+    };
+
+    if (overrideArguments) {
+        baseArguments['--override'] = JSON.parse(overrideArguments);
+    }
+
+    if (specificTestFile) {
+        baseArguments['--override'].tests = specificTestFile;
+    }
+
+    if (baseArguments['--override']) {
+        baseArguments['--override'] = JSON.stringify(baseArguments['--override']);
+    }
+
+    let argumentsArray = [];
+    for (let key in baseArguments) {
+        argumentsArray.push(key);
+        argumentsArray.push(baseArguments[key]);
+    }
+
+    return argumentsArray
+}
+
+function spawnProcess(test, processQueue) {
+    let commandLineArguments = buildCodeceptjsArguments(
+        test.overrideArguments,
+        test.configPath,
+        test.specificTestFile
+    );
+
     return new Promise((resolve, reject) => {
         processQueue[test.name] = spawn(
             `npx`,
-            [
-                `codeceptjs`,
-                'run',
-                `--reporter`,
-                `mocha-multi`,
-                `--config`,
-                `./${configPath}`,
-                `--override`,
-                `{
-                    "tests": "${test.testFile}"
-                }`
-            ],
+            commandLineArguments,
             {
                 cwd: process.cwd(),
                 env: process.env
@@ -134,5 +177,5 @@ function spawnProcess(test, processQueue, configName) {
         });
     })
 }
-}
+
 

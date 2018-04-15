@@ -4,7 +4,8 @@
     "WebDriverIO": {
       "url": "https://demo-merchant.xsolla.com",
       "browser": "chrome",
-      "smartWait": 30000,
+      "smartWait": 30001,
+      "waitForTimeout": 30001,
       "host": "localhost",
       "port": "4444",
       "path": "/wd/hub",
@@ -24,6 +25,5 @@
   "tests": "./tests/demo_publisher/demo_publisher_*",
   "timeout": 36000,
   "name": "codecept_test",
-  "asyncTestsFolder": "./tests/demo_publisher/",
-  "loginScript": "./tests/demo_publisher_login.js"
+  "loginScript": "./tests/demo_publisher/login_scenario.js"
 }

@@ -84,6 +84,8 @@ node helpers/run.js run --config ./example_demo_publisher3.json
   "hooks": [],  //Хуки. Эта опция похожа на bootstrap и teardown, 
                 //но позволяет регистрировать множество файлов для подключения к диспетчеру ивентов codecept.js
   "tests": "./tests/demo_publisher/demo_publisher_*", //Сценарии тестов. 
+  //Паттерн для поиска тестовых файлов пишется в соответствии с форматом пакета glob 
+  //https://www.npmjs.com/package/glob
   "timeout": 36000, //После этого времени кодцепт остановит выполнение сценария с ошибкой. 
                     //Не позволяет тестам зависать навсегда 
   "name": "publisher 3", //Имя тестового наборта

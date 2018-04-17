@@ -9,8 +9,7 @@
 //todo: ограничение потоков
 //todo: сделать гитигнор
 
-//todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
-//todo: поддержка мультибраузерности из асинхронной опции кодцепта
+//todo: поддержка мультибраузерности из асинхронной опции кодцепта?
 //todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)?
 //todo: статистика по тестам?
 
@@ -54,17 +53,17 @@ async function run(configPath, isAsync, overrideArguments) {
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
     }
 
-    await handleTestsQueue(loginTestQueue, processQueue);
-    await handleTestsQueue(testsQueue, processQueue)
+    await handleTestsQueue(loginTestQueue, processQueue, isAsync);
+    await handleTestsQueue(testsQueue, processQueue, isAsync)
 }
 
 
-function handleTestsQueue(testsQueue, processQueue) {
+function handleTestsQueue(testsQueue, processQueue, isAsync) {
     return new Promise((resolve, reject) => {
         if (testsQueue === false) resolve(true);
 
         testsQueue.forEach(test => {
-            spawnProcess(test, processQueue)
+            spawnProcess(test, processQueue, isAsync)
                 .then(() => {
                     resolve(true)
                 })
@@ -89,12 +88,14 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScrip
     let asyncTestsQueue = [];
     let testsList;
     if (isLoginScript) {
-        if (!config.loginScript) throw new Error('must provide login script');
-        testsList = glob.sync(config.loginScript, {});
-
+        if (!config.loginScript) {
+            console.log('you not provide login script');
+            return false
+        }
+        testsList = ['./helpers/service.js'];
     }
     else {
-        if (!config.loginScript) throw new Error('must provide test scripts');
+        if (!config.tests) throw new Error('must provide test scripts');
         testsList = glob.sync(config.tests, {});
     }
 
@@ -110,12 +111,13 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScrip
     return asyncTestsQueue;
 }
 
-function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile) {
+function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, isAsync) {
     let baseArguments = {
         'codeceptjs': 'run',
+        '--debug': '--steps',
         '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
-        '--override': {}
+        '--override': {isAsync: !!isAsync},
     };
 
     if (overrideArguments) {
@@ -139,11 +141,12 @@ function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFil
     return argumentsArray
 }
 
-function spawnProcess(test, processQueue) {
+function spawnProcess(test, processQueue, isAsync) {
     let commandLineArguments = buildCodeceptjsArguments(
         test.overrideArguments,
         test.configPath,
-        test.specificTestFile
+        test.specificTestFile,
+        isAsync
     );
 
     return new Promise((resolve, reject) => {
@@ -155,6 +158,8 @@ function spawnProcess(test, processQueue) {
                 env: process.env
             }
         );
+
+        console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
 
         processQueue[test.name].stdout.on('data', (data) => {
             console.log(`[${test.name}]: ${data}`);

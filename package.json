@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test_async": "node helpers/run.js",
-    "test_fail": "multi='spec=- mocha-allure-reporter=-' codeceptjs run  --reporter mocha-multi  --config ./example_fail.json",
-    "demo_publisher3": "multi='spec=- mocha-allure-reporter=-' npx codeceptjs run --reporter mocha-multi  --config ./example_demo_publisher3.json",
+    "demo_publisher3": "node helpers/run.js run --config ./example_demo_publisher3.json",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_standalone": "selenium-standalone start"
   },

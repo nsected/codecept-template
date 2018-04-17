@@ -1,0 +1,6 @@
+/tmp/
+allure-report/
+allure-results/
+node_modules/
+output/
+tmp/

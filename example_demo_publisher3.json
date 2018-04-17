@@ -17,13 +17,14 @@
     }
   },
   "include": {
-    "I": "./steps/steps_file.js"
+    "I": "./steps/steps_file.js",
+    "service": "./steps/service.js"
   },
   "bootstrap": "./helpers/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/demo_publisher/demo_publisher_*",
   "timeout": 36000,
-  "name": "codecept_test",
-  "loginScript": "./tests/demo_publisher/login_scenario.js"
+  "name": "publisher 3",
+  "loginScript": "./tests/demo_publisher/login_partition.js"
 }

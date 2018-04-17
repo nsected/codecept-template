@@ -16,7 +16,12 @@ npm install
 
 Запустить локальный сервер Allure
 ```
-npm report
+npm run report
+```
+
+Запустить selenium-standalone
+```
+selenium-standalone start
 ```
 
 ## Запуск тестов

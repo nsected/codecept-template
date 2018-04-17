@@ -87,7 +87,7 @@ node helpers/run.js run --config ./my_config.json
 
 ### Хэлперы из папки steps
 
-* **service.js**
+**service.js**
 
 сервисные функции. Содержит функцию логина. 
 При подключении будет доступна в колбеке функции Scenario. 
@@ -105,12 +105,23 @@ Scenario('demo publisher payrank',  async (I, service) => {
 При выполнении с асинхронным флагом сценарий loginScript будет выполнен перед запуском тестов автоматически
 Можно реализовать собственный сценарий логина, вместо использования опции loginScript.
 
-* **steps_file.js**
+**steps_file.js**
 
 Содержит некоторые кастомные шаги для тестов. 
 
 * ```I.seeText(text)``` Ожидает элемент, текст которого равняется заданному тексту
 * ```I.seeContainsText(text)``` Ожидает элемент, текст которого содержит заданный тескст
 * ```I.clickOn(selector)``` Выполняет клик по элементу с предварительным ожиданием элемента. Принимает xpath и css селекторы. Определет тип селектора автоматически
+
+Пример использования
+```
+Scenario('demo publisher payrank',  async (I, service) => {
+    await service.login(I);
+    await I.amOnPage('/1/payrank');
+    await I.seeText('2.5%')
+    await I.seeContainsText('2.5')
+    await I.clickOn('//*[contains(@class, "ps-edit")]');
+});
+```
 
 Стандартные методы для работы с браузером можно посмотреть здесь https://codecept.io/helpers/WebDriverIO/

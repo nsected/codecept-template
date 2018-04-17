@@ -13,6 +13,7 @@
 //todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)?
 //todo: статистика по тестам?
 
+
 const program = require('commander');
 const {spawn} = require('child_process');
 const fs = require("fs");

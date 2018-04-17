@@ -1,12 +1,10 @@
-
-
-
-
 //todo: разделить проект на хелперы и ядро проект
 //todo: выложить проект в локальный репозиторий
 //todo: написать инструкцию
 
 //todo: ограничение потоков
+//todo: передавать дополнительные опции codecept.js через run.js
+//todo: грабить буфер консоли браузера при ошибках
 //todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
 
 //todo: поддержка мультибраузерности из асинхронной опции кодцепта
@@ -128,9 +126,7 @@ function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFil
         baseArguments['--override'].tests = specificTestFile;
     }
 
-    if (baseArguments['--override']) {
-        baseArguments['--override'] = JSON.stringify(baseArguments['--override']);
-    }
+    baseArguments['--override'] = JSON.stringify(baseArguments['--override']);
 
     let argumentsArray = [];
     for (let key in baseArguments) {

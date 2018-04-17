@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demo_publisher3": "node helpers/run.js run --config ./example_demo_publisher3.json -a",
+    "deploy": "npm install && selenium-standalone install",
+    "demo_publisher3": "node helpers/run.js run --config ./example_demo_publisher3.json",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_standalone": "selenium-standalone start"
   },

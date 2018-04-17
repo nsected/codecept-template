@@ -51,8 +51,9 @@ node helpers/run.js run --config ./my_config.json
       "path": "/wd/hub", //Страница инициализации сервера вебдрайвера
       "desiredCapabilities": { //Дополнительные опции для браузеров
         "chromeOptions": { //опции для хрома
-          "args": [ "--headless", "--disable-gpu", "--window-size=1920,1080" ] //Опции --headless, --disable-gpu" для отключения вьюпорта браузера
-                                                                               //Опция "--window-size=1920,1080"  задает разрешение окна браузера
+          "args": [ "--headless", "--disable-gpu", "--window-size=1920,1080" ] 
+          //Опции --headless, --disable-gpu" для отключения вьюпорта браузера
+          //Опция "--window-size=1920,1080"  задает разрешение окна браузера
         }
       }
     }

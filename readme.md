@@ -25,6 +25,11 @@ npm report
 ```
 node helpers/run.js run --config ./my_config.json
 ```
+
+Пример
+```
+node helpers/run.js run --config ./example_demo_publisher3.json
+```
 ### Опции командной строки
 ```-c, --config [file] ```- обязательная опция, задает конфиг для тестов
 

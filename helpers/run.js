@@ -7,8 +7,9 @@
 //todo: написать инструкцию
 
 //todo: ограничение потоков
+//todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
 
-//todo: поддержка мультибраузерности из асинхронной опции кодцепта?
+//todo: поддержка мультибраузерности из асинхронной опции кодцепта
 //todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)?
 //todo: статистика по тестам?
 
@@ -91,7 +92,7 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScrip
             console.log('you not provide login script');
             return false
         }
-        testsList = ['./helpers/service.js'];
+        testsList = ['./helpers/login.js'];
     }
     else {
         if (!config.tests) throw new Error('must provide test scripts');

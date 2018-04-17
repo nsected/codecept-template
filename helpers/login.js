@@ -9,7 +9,8 @@ Scenario('demo_publisher_login', async (I) => {
             if (!!config.loginScript) {
                 console.log(config.loginScript);
                 let loginPartition = path.join(process.cwd(), config.loginScript);
-                await require(loginPartition)(I);
+                let login = await require(loginPartition);
+                await login(I);
             }
         }
         catch

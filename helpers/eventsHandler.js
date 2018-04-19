@@ -35,6 +35,10 @@ module.exports = function (done) {
         let driverScreenData;
         let screenShot;
         let failedStep = test.steps.filter(step => step.status === 'failed');
+        let browserLogs = '';
+        browserLogs = await client.browser.log('browser');
+        allure.createAttachment('browser_logs', JSON.stringify(browserLogs));
+
         client.browser.getUrl()
             .then(_url => {
                 url = _url;
@@ -56,6 +60,7 @@ module.exports = function (done) {
             console.error(`❌         on step: ${failedStep.actor} ${failedStep.name} ${failedStep.args}`);
             console.error('❌');
             console.error('');
+
 
             if (driverScreenData.length > 0) {
                 screenShot = new Buffer(

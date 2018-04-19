@@ -1,7 +1,6 @@
 //todo: разделить проект на хелперы и ядро проект
 //todo: выложить проект в локальный репозиторий
 
-//todo: грабить буфер консоли браузера при ошибках
 //todo: передавать дополнительные опции codecept.js через run.js
 
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
@@ -9,6 +8,7 @@
 //todo: вынести механизм обмена куками в хук кодцепта
 //todo: после завершения тестов выдавать в консоль summary
 //todo: поддержка мультибраузерности из асинхронной опции кодцепта
+//todo: помечать шаги желтым, если при их выполнении в консоли ошибки
 //todo: поддержка асинхронных тестов во вкладках одного инстанса браузера?
 //todo: статистика по тестам?
 //todo: запись видео?
@@ -77,19 +77,20 @@ function handleTestsQueue(testsQueue, processQueue, config) {
             threadsCount = testsQueueCount
         }
 
-        // console.log('----------------------------------threadsLimit ' + config.threadsLimit);
-        // console.log('----------------------------------threadsCount ' + threadsCount);
-        // console.log('----------------------------------testsQueueCount ' + testsQueueCount);
-        // console.log('----------------------------------freeSlots ' + freeSlots);
+        console.log('----------------------------------threadsLimit ' + config.threadsLimit);
+        console.log('----------------------------------threadsCount ' + threadsCount);
+        console.log('----------------------------------testsQueueCount ' + testsQueueCount);
+        console.log('----------------------------------freeSlots ' + freeSlots);
 
         for (let i = 0; i < threadsCount; i++) {
             tempQueue.push(
-                testsQueue.splice(i, 1)[0]
+                testsQueue.splice(0, 1)[0]
             );
         }
-
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        console.log(tempQueue);
         tempQueue.forEach(test => {
-            console.log(test.name);
+
             spawnProcess(test, testsQueue, processQueue, config)
                 .then(() => {
                     resolve(true)

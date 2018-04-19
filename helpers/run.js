@@ -40,8 +40,6 @@ async function run(configPath, isAsync, overrideArguments) {
     let config = require(path.join(process.cwd(), configPath));
     config.isAsync = isAsync;
     const loginScript = config.loginScript;
-    let threadsLimit;
-
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
 
     let processQueue = {};

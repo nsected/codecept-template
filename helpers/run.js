@@ -1,17 +1,17 @@
 //todo: разделить проект на хелперы и ядро проект
 //todo: выложить проект в локальный репозиторий
-//todo: написать инструкцию
 
-//todo: ограничение потоков,
-// запилить автосохранение и загрузку кукисов
-//todo: передавать дополнительные опции codecept.js через run.js
 //todo: грабить буфер консоли браузера при ошибках
-//todo: единый механизм запуска для синхронных и асинхронных тестов, отличие только в опции --async
+//todo: передавать дополнительные опции codecept.js через run.js
 
-
+//todo: объеденить очередь тестов и очередь выполняемых потоков в одну
+//todo: обсервить ошибки в консоли браузера и записывать их в отчет
+//todo: вынести механизм обмена куками в хук кодцепта
+//todo: после завершения тестов выдавать в консоль summary
 //todo: поддержка мультибраузерности из асинхронной опции кодцепта
-//todo: поддержка асинхронных тестов в рамках одного инстанса браузера (разные тесты в разных вкладках браузера)?
+//todo: поддержка асинхронных тестов во вкладках одного инстанса браузера?
 //todo: статистика по тестам?
+//todo: запись видео?
 
 const program = require('commander');
 const {spawn} = require('child_process');
@@ -37,41 +37,119 @@ program
 program.parse(process.argv);
 
 async function run(configPath, isAsync, overrideArguments) {
-    const config = require(path.join(process.cwd(), configPath));
+    let config = require(path.join(process.cwd(), configPath));
+    config.isAsync = isAsync;
     const loginScript = config.loginScript;
+    const threadsLimit = config.threadsLimit;
     let processQueue = {};
     let loginTestQueue;
     let testsQueue;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
 
     if (isAsync) {
-        loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, true);
-        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, false)
+        loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');
+        testsQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'regularTest')
     }
     else {
         loginTestQueue = false;
         testsQueue = makeSyncTestsQueue(configPath, overrideArguments, config);
     }
 
-    await handleTestsQueue(loginTestQueue, processQueue, isAsync);
-    await handleTestsQueue(testsQueue, processQueue, isAsync)
+    await handleTestsQueue(loginTestQueue, processQueue, config);
+    await handleTestsQueue(testsQueue, processQueue, config)
 }
 
 
-function handleTestsQueue(testsQueue, processQueue, isAsync) {
+function handleTestsQueue(testsQueue, processQueue, config) {
     return new Promise((resolve, reject) => {
         if (testsQueue === false) resolve(true);
 
-        testsQueue.forEach(test => {
-            spawnProcess(test, processQueue, isAsync)
+        let testsQueueCount = testsQueue.length;
+        let tempQueue = [];
+        let threadsCount;
+        let inProgressTestsCount = Object.keys(processQueue).length;
+        let freeSlots = config.threadsLimit - inProgressTestsCount;
+
+        if (testsQueueCount >= freeSlots) {
+            threadsCount = freeSlots
+        }
+        else {
+            threadsCount = testsQueueCount
+        }
+
+        // console.log('----------------------------------threadsLimit ' + config.threadsLimit);
+        // console.log('----------------------------------threadsCount ' + threadsCount);
+        // console.log('----------------------------------testsQueueCount ' + testsQueueCount);
+        // console.log('----------------------------------freeSlots ' + freeSlots);
+
+        for (let i = 0; i < threadsCount; i++) {
+            tempQueue.push(
+                testsQueue.splice(i, 1)[0]
+            );
+        }
+
+        tempQueue.forEach(test => {
+            console.log(test.name);
+            spawnProcess(test, testsQueue, processQueue, config)
                 .then(() => {
                     resolve(true)
                 })
-                .catch(error => {
-                    reject(error)
+                .catch(result => {
+                    if (result.test.testType === 'login') {
+                        console.error('!!!!!!!! login scenario failed. Exiting');
+                        process.exit(1)
+                    }
+                    else {
+                        console.error(result.error)
+                    }
                 })
         });
     });
+}
+
+function spawnProcess(test, testsQueue, processQueue, config) {
+    let commandLineArguments = buildCodeceptjsArguments(
+        test.overrideArguments,
+        test.configPath,
+        test.specificTestFile,
+        config.isAsync
+    );
+
+    return new Promise((resolve, reject) => {
+        processQueue[test.name] = spawn(
+            `npx`,
+            commandLineArguments,
+            {
+                cwd: process.cwd(),
+                env: process.env
+            }
+        );
+
+        console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
+
+        processQueue[test.name].stdout.on('data', (data) => {
+            console.log(`[${test.name}]: ${data}`);
+        });
+
+        processQueue[test.name].stderr.on('data', (data) => {
+            console.error(`[${test.name}]: ${data}`);
+        });
+
+        processQueue[test.name].on('close', (code) => {
+            console.log(`${test.name} exited with code ${code}`);
+            delete processQueue[test.name];
+            if (code === 0) {
+                resolve(true)
+            }
+            else {
+                reject({
+                    error: new Error(`${test.name} exited with code ${code}`),
+                    test: test
+                })
+            }
+            handleTestsQueue(testsQueue, processQueue, config)
+        });
+    })
 }
 
 function makeSyncTestsQueue(configPath, overrideArguments, config) {
@@ -84,15 +162,17 @@ function makeSyncTestsQueue(configPath, overrideArguments, config) {
     }]
 }
 
-function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScript) {
+function makeAsyncTestsQueue(configPath, overrideArguments, config, testType) {
     let asyncTestsQueue = [];
     let testsList;
-    if (isLoginScript) {
+    if (testType === 'login') {
         if (!config.loginScript) {
             console.log('you not provide login script');
             return false
         }
-        testsList = ['./helpers/login.js'];
+        else {
+            testsList = ['./helpers/login.js'];
+        }
     }
     else {
         if (!config.tests) throw new Error('must provide test scripts');
@@ -105,7 +185,8 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, isLoginScrip
             status: 'waiting',
             overrideArguments: overrideArguments,
             configPath: configPath,
-            specificTestFile: testsList[i]
+            specificTestFile: testsList[i],
+            testType: testType
         };
     }
     return asyncTestsQueue;
@@ -138,45 +219,3 @@ function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFil
 
     return argumentsArray
 }
-
-function spawnProcess(test, processQueue, isAsync) {
-    let commandLineArguments = buildCodeceptjsArguments(
-        test.overrideArguments,
-        test.configPath,
-        test.specificTestFile,
-        isAsync
-    );
-
-    return new Promise((resolve, reject) => {
-        processQueue[test.name] = spawn(
-            `npx`,
-            commandLineArguments,
-            {
-                cwd: process.cwd(),
-                env: process.env
-            }
-        );
-
-        console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
-
-        processQueue[test.name].stdout.on('data', (data) => {
-            console.log(`[${test.name}]: ${data}`);
-        });
-
-        processQueue[test.name].stderr.on('data', (data) => {
-            console.error(`[${test.name}]: ${data}`);
-        });
-
-        processQueue[test.name].on('close', (code) => {
-            console.log(`${test.name} exited with code ${code}`);
-            if (code === 0) {
-                resolve(true)
-            }
-            else {
-                reject(new Error(`${test.name} exited with code ${code}`))
-            }
-        });
-    })
-}
-
-

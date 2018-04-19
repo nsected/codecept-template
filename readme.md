@@ -91,6 +91,7 @@ node helpers/run.js run --config ./example_demo_publisher3.json
   "name": "publisher 3", //Имя тестового наборта
   "loginScript": "./tests/demo_publisher/login_partition.js" //сценарий логина. 
   //Необязательный параметр. Позволяет использовать один сценарий логина для синхронных и асинхронных тестов.
+  "threadsLimit": 2 //Лимит асинхронных тестов в единицу времени
 }
 ```
 

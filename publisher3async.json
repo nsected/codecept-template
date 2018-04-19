@@ -1,0 +1,31 @@
+{
+  "output": "./output",
+  "helpers": {
+    "WebDriverIO": {
+      "url": "https://publisher.xsolla.com",
+      "browser": "chrome",
+      "smartWait": 30001,
+      "waitForTimeout": 30001,
+      "host": "localhost",
+      "port": "4444",
+      "path": "/wd/hub",
+      "desiredCapabilities": {
+        "chromeOptions": {
+          "args": ["--window-size=1920,1080" ]
+        }
+      }
+    }
+  },
+  "include": {
+    "I": "./steps/steps_file.js",
+    "service": "./steps/service.js"
+  },
+  "bootstrap": "./helpers/eventsHandler.js",
+  "teardown": null,
+  "hooks": [],
+  "tests": "./tests/publisher3/publisher_*",
+  "timeout": 36000,
+  "name": "publisher 3 async",
+  "loginScript": "./tests/publisher3/login_partition.js",
+  "threadsLimit": 2
+}

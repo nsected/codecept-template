@@ -3,6 +3,7 @@
 
 //todo: передавать дополнительные опции codecept.js через run.js
 
+//todo: отрефакторить обработку и мерджинг параметров для кодцепта
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
 //todo: обсервить ошибки в консоли браузера и записывать их в отчет
 //todo: вынести механизм обмена куками в хук кодцепта
@@ -23,21 +24,28 @@ if (process.argv.length <= 2) {
     console.log(`run test with command run and option --config `);
 }
 
+function list(val) {
+    return val.split(',');
+}
+
 program
     .command('run')
     .option('-c, --config [file]', 'configuration file to be used')
     .option('-o, --override [value]', 'override provided config options')
     .option('-a, --async', 'run tests asynchronously')
+    .option('-p, --params <items>', 'parameters passing to the codecept.js', list)
     .action(function (cmd) {
         let configPath = cmd.config;
         let override = cmd.override;
         let isAsync = cmd.async;
-        run(configPath, isAsync, override);
+        let codeceptParams = cmd.params;
+        run(configPath, isAsync, override, codeceptParams);
     });
 program.parse(process.argv);
 
-async function run(configPath, isAsync, overrideArguments) {
+async function run(configPath, isAsync, overrideArguments, codeceptParams) {
     let config = require(path.join(process.cwd(), configPath));
+    config.codeceptParams = codeceptParams;
     config.isAsync = isAsync;
     const loginScript = config.loginScript;
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
@@ -114,7 +122,7 @@ function spawnProcess(test, testsQueue, processQueue, config) {
         test.overrideArguments,
         test.configPath,
         test.specificTestFile,
-        config.isAsync
+        config
     );
 
     return new Promise((resolve, reject) => {
@@ -194,11 +202,16 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, testType) {
     return asyncTestsQueue;
 }
 
-function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, isAsync) {
+function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFile, config) {
+    let isAsync = config.isAsync;
+    let codeceptParams = [
+        'codeceptjs',
+        'run'
+    ]
+        .concat(config.codeceptParams);
     let baseArguments = {
-        'codeceptjs': 'run',
-        '--debug': '--steps',
-        '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
+        // '--debug': '--steps',
+        // '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
         '--override': {isAsync: !!isAsync},
     };
@@ -219,5 +232,5 @@ function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFil
         argumentsArray.push(baseArguments[key]);
     }
 
-    return argumentsArray
+    return codeceptParams.concat(argumentsArray);
 }

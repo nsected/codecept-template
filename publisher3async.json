@@ -27,5 +27,5 @@
   "timeout": 36000,
   "name": "publisher 3 async",
   "loginScript": "./tests/publisher3/login_partition.js",
-  "threadsLimit": 333
+  "threadsLimit": 4
 }

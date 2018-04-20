@@ -16,7 +16,6 @@ module.exports = function (I) {
                 cookies = await require('../tmp/cookies.json');
                 await console.log('Login with stored cookies ' + cookies.length);
                 await I.amOnPage('/');
-                await I.waitForElement('//body');
                 await I.clearCookie();
                 for (let cookie of cookies) {
                     await I.setCookie(cookie);

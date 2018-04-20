@@ -1,8 +1,6 @@
 //todo: разделить проект на хелперы и ядро проект
 //todo: выложить проект в локальный репозиторий
 
-//todo: передавать дополнительные опции codecept.js через run.js
-
 //todo: отрефакторить обработку и мерджинг параметров для кодцепта
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
 //todo: обсервить ошибки в консоли браузера и записывать их в отчет
@@ -210,8 +208,7 @@ function buildCodeceptjsArguments(overrideArguments, configPath, specificTestFil
     ]
         .concat(config.codeceptParams);
     let baseArguments = {
-        // '--debug': '--steps',
-        // '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
+        '--reporter': 'mocha-multi', //todo: разхардкодить опции моки
         '--config': configPath,
         '--override': {isAsync: !!isAsync},
     };

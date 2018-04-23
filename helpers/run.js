@@ -18,6 +18,7 @@ const {spawn} = require('child_process');
 const fs = require("fs");
 const path = require("path");
 const glob = require("glob");
+let isVerbose;
 
 if (process.argv.length <= 2) {
     console.log(`run test with command run and option --config `);
@@ -29,20 +30,22 @@ function list(val) {
 
 program
     .command('run')
+    .option('-v, --verbose', 'verbose output')
     .option('-c, --config [file]', 'configuration file to be used')
     .option('-o, --override [value]', 'override provided config options')
     .option('-a, --async', 'run tests asynchronously')
     .option('-p, --params <items>', 'parameters passing to the codecept.js', list)
     .action(function (cmd) {
-        let configPath = cmd.config;
-        let override = cmd.override;
-        let isAsync = cmd.async;
-        let codeceptParams = cmd.params;
-        run(configPath, isAsync, override, codeceptParams);
+        run(cmd);
     });
 program.parse(process.argv);
 
-async function run(configPath, isAsync, overrideArguments, codeceptParams) {
+async function run(cmd) {
+    let configPath = cmd.config;
+    let overrideArguments = cmd.override;
+    let isAsync = cmd.async;
+    let codeceptParams = cmd.params;
+    isVerbose = cmd.verbose;
     let config = require(path.join(process.cwd(), configPath));
     config.codeceptParams = codeceptParams;
     config.isAsync = isAsync;
@@ -85,18 +88,25 @@ function handleTestsQueue(testsQueue, processQueue, config) {
             threadsCount = testsQueueCount
         }
 
-        console.log('----------------------------------threadsLimit ' + config.threadsLimit);
-        console.log('----------------------------------threadsCount ' + threadsCount);
-        console.log('----------------------------------testsQueueCount ' + testsQueueCount);
-        console.log('----------------------------------freeSlots ' + freeSlots);
+        if (isVerbose) {
+            console.log('----------------------------------threadsLimit ' + config.threadsLimit);
+            console.log('----------------------------------threadsCount ' + threadsCount);
+            console.log('----------------------------------testsQueueCount ' + testsQueueCount);
+            console.log('----------------------------------freeSlots ' + freeSlots);
+        }
+
 
         for (let i = 0; i < threadsCount; i++) {
             tempQueue.push(
                 testsQueue.splice(0, 1)[0]
             );
         }
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        console.log(tempQueue);
+
+        if (isVerbose) {
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+            console.log(tempQueue);
+        }
+
         tempQueue.forEach(test => {
 
             spawnProcess(test, testsQueue, processQueue, config)
@@ -134,7 +144,9 @@ function spawnProcess(test, testsQueue, processQueue, config) {
             }
         );
 
-        console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
+        if (isVerbose) {
+            console.log("multi='spec=- mocha-allure-reporter=-'" + processQueue[test.name].spawnargs.join(' '));
+        }
 
         processQueue[test.name].stdout.on('data', (data) => {
             console.log(`[${test.name}]: ${data}`);

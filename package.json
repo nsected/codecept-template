@@ -10,7 +10,7 @@
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_standalone": "selenium-standalone start"
   },
-  "author": "",
+  "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",
   "dependencies": {
     "allure-commandline": "^2.5.0",

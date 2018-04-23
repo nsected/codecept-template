@@ -1,8 +1,8 @@
 {
-  "name": "wdio_test",
+  "name": "Codecept reference",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A codecept.js reference project",
+  "main": "",
   "scripts": {
     "deploy": "npm install && selenium-standalone install",
     "demo_publisher3": "node helpers/run.js run --params '--debug,--steps' --config ./example_demo_publisher3.json",

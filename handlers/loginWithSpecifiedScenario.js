@@ -1,4 +1,4 @@
-//логин для run.js
+//логин для run.js со сценарием, определенным в конфиге
 const fs = require('fs');
 const path = require("path");
 const config = require('codeceptjs').config.get();

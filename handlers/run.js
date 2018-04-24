@@ -1,7 +1,7 @@
-//todo: разделить проект на хелперы и ядро проект
-//todo: выложить проект в локальный репозиторий
+//todo: Выложить хелперы как пакет npm.
 
 
+//todo: переименовать verbose в debug
 //todo: отрефакторить обработку и мерджинг параметров для кодцепта
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
 //todo: обсервить ошибки в консоли браузера и записывать их в отчет
@@ -24,8 +24,8 @@ if (process.argv.length <= 2) {
     console.log(`run test with command run and option --config `);
 }
 
-function list(val) {
-    return val.split(',');
+function splitList(values) {
+    return values.split(',');
 }
 
 program
@@ -34,7 +34,7 @@ program
     .option('-c, --config [file]', 'configuration file to be used')
     .option('-o, --override [value]', 'override provided config options')
     .option('-a, --async', 'run tests asynchronously')
-    .option('-p, --params <items>', 'parameters passing to the codecept.js', list)
+    .option('-p, --params <items>', 'parameters passing to the codecept.js', splitList)
     .action(function (cmd) {
         run(cmd);
     });
@@ -192,7 +192,7 @@ function makeAsyncTestsQueue(configPath, overrideArguments, config, testType) {
             return false
         }
         else {
-            testsList = ['./helpers/login.js'];
+            testsList = ['./handlers/loginWithSpecifiedScenario.js'];
         }
     }
     else {

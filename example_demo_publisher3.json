@@ -20,7 +20,7 @@
     "I": "./steps/steps_file.js",
     "service": "./steps/service.js"
   },
-  "bootstrap": "./helpers/eventsHandler.js",
+  "bootstrap": "./handlers/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/demo_publisher/demo_publisher_*",

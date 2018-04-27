@@ -20,12 +20,12 @@
     "I": "./steps/steps_file.js",
     "service": "./steps/service.js"
   },
-  "bootstrap": "./handlers/eventsHandler.js",
+  "bootstrap": "./codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/publisher3/publisher_*",
   "timeout": 36000,
   "name": "publisher 3 async",
   "loginScript": "./tests/publisher3/login_partition.js",
-  "threadsLimit": 5
+  "threadsLimit": 3
 }

@@ -1,6 +1,7 @@
 //todo: Выложить хелперы как пакет npm.
 
 //todo: завернуть проект в модуль NPM
+//todo: навернуть классов
 //todo: переименовать verbose в debug
 //todo: отрефакторить обработку и мерджинг параметров для кодцепта
 //todo: объеденить очередь тестов и очередь выполняемых потоков в одну
@@ -52,11 +53,15 @@ async function run(cmd) {
     config.isAsync = isAsync;
     const loginScript = config.loginScript;
     if (!Number.isInteger(config.threadsLimit)) config.threadsLimit = 2;
-
     let processQueue = {};
     let loginTestQueue;
     let testsQueue;
     process.env.multi = 'spec=- mocha-allure-reporter=-'; //todo: разхардкодить опции моки
+
+
+
+
+
 
     if (isAsync) {
         loginTestQueue = makeAsyncTestsQueue(configPath, overrideArguments, config, 'login');

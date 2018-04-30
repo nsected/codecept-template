@@ -1,18 +1,20 @@
 {
-  "name": "wdio_test",
+  "name": "codecept_reference",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A codecept.js reference project",
+  "main": "",
   "scripts": {
     "deploy": "npm install && selenium-standalone install",
-    "demo_publisher3": "node helpers/run.js run --params '--debug,--steps' --config ./example_demo_publisher3.json",
-    "publisher3async": "node helpers/run.js run --params '--debug,--steps' --config ./publisher3async.json --async",
+    "demo_publisher3": "npx codecept_tools run --params '--debug,--steps' --config ./example_demo_publisher3.json",
+    "publisher3async": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/publisher3async.json --async --verbose",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_standalone": "selenium-standalone start"
   },
-  "author": "",
+  "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",
   "dependencies": {
+    "codecept_tools": "git+https://github.com/nsected/codecept_tools.git",
+    "xsolla-community-helpers": "git+https://github.com/nsected/xsolla-community-helpers.git",
     "allure-commandline": "^2.5.0",
     "codeceptjs": "^1.1.7",
     "glob": "^7.1.2",

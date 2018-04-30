@@ -11,16 +11,16 @@
       "path": "/wd/hub",
       "desiredCapabilities": {
         "chromeOptions": {
-          "args": [ "--headless", "--disable-gpu", "--window-size=1920,1080" ]
+          "args": ["--window-size=1920,1080" ]
         }
       }
     }
   },
   "include": {
-    "I": "./steps/steps_file.js",
-    "service": "./steps/service.js"
+    "I": "node_modules/xsolla-community-helpers/steps/steps_file.js",
+    "service": "node_modules/xsolla-community-helpers/steps/service.js"
   },
-  "bootstrap": "./helpers/eventsHandler.js",
+  "bootstrap": "node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
   "tests": "./tests/demo_publisher/demo_publisher_*",

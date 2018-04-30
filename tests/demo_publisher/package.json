@@ -1,0 +1,19 @@
+{
+  "external_id": "sample_plan",
+  "settings": {
+    "project_id": 7096
+  },
+  "group_id": "USA Products",
+  "charge": {
+    "period": {
+      "value": 1,
+      "type": "month"
+    },
+    "amount": 10,
+    "currency": "USD"
+  },
+  "expiration": {
+    "value": "",
+    "type": ""
+  }
+}

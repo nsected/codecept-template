@@ -1,5 +1,5 @@
 {
-  "output": "./output",
+  "output": "../../output",
   "helpers": {
     "WebDriverIO": {
       "url": "https://publisher.xsolla.com",
@@ -17,15 +17,15 @@
     }
   },
   "include": {
-    "I": "./steps/steps_file.js",
-    "service": "./steps/service.js"
+    "I": "../../node_modules/xsolla-community-helpers/steps/steps_file.js",
+    "login": "../../node_modules/codecept_tools/loginPartitionExecutor.js"
   },
-  "bootstrap": "./helpers/eventsHandler.js",
+  "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./tests/publisher3/publisher_*",
+  "tests": "./scenarios/publisher_*",
   "timeout": 36000,
   "name": "publisher 3 async",
-  "loginScript": "./tests/publisher3/login_partition.js",
-  "threadsLimit": 4
+  "loginScript": "./login_partition.js",
+  "threadsLimit": 5
 }

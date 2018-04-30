@@ -6,7 +6,7 @@
   "scripts": {
     "deploy": "npm install && selenium-standalone install",
     "demo_publisher3": "npx codecept_tools run --params '--debug,--steps' --config ./example_demo_publisher3.json",
-    "publisher3async": "npx codecept_tools run --params '--debug,--steps' --config ./publisher3async.json --async --verbose",
+    "publisher3async": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/publisher3async.json --async --verbose",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_standalone": "selenium-standalone start"
   },

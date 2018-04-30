@@ -1,7 +1,7 @@
-Feature('44444444444444444444');
+Feature('33333333333333333333333333');
 
-Scenario('44444444444444444444',  async (I, service) => {
-    await service.login(I);
+Scenario('333333333333333333333333333333',  async (I, login) => {
+    await login.login(I);
     await I.amOnPage('/42505/finance/transactions/search');
     await I.waitForElement('//*[contains(@class, "finance-transactions")]');
 });

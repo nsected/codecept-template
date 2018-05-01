@@ -1,0 +1,37 @@
+{
+  "output": "../../tmp/fail_screens",
+  "helpers": {
+    "WebDriverIO": {
+      "url": "https://demo-publisher.xsolla.com",
+      "browser": "chrome",
+      "smartWait": 30001,
+      "waitForTimeout": 30001,
+      "host": "localhost",
+      "port": "4444",
+      "path": "/wd/hub",
+      "desiredCapabilities": {
+        "chromeOptions": {
+          "args": ["--window-size=1920,1080" ]
+        }
+      }
+    }
+  },
+  "include": {
+    "vars": "./vars.js",
+    "I": "../../node_modules/xsolla-community-helpers/page_objects/steps_file.js",
+    "login": "../../node_modules/codecept_tools/loginPartitionExecutor.js"
+  },
+  "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
+  "teardown": null,
+  "hooks": [],
+  "tests": "./scenarios/publisher_*",
+  "timeout": 36000,
+  "name": "publisher 3 demo",
+  "loginScript": "./login_demo.js",
+  "threadsLimit": 5,
+  "vars": {
+    "type": "demo",
+    "publisher": "1",
+    "project": "1"
+  }
+}

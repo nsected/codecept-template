@@ -1,11 +1,11 @@
 {
-  "output": "../../output",
+  "output": "../../tmp/fail_screens",
   "helpers": {
     "WebDriverIO": {
       "url": "https://publisher.xsolla.com",
       "browser": "chrome",
-      "smartWait": 30001,
-      "waitForTimeout": 30001,
+      "smartWait": 30000,
+      "waitForTimeout": 30000,
       "host": "localhost",
       "port": "4444",
       "path": "/wd/hub",
@@ -17,7 +17,9 @@
     }
   },
   "include": {
-    "I": "../../node_modules/xsolla-community-helpers/steps/steps_file.js",
+    "vars": "./vars.js",
+    "I": "../../node_modules/xsolla-community-helpers/page_objects/steps_file.js",
+    "maskList": "../../node_modules/xsolla-community-helpers/utils/maskList.js",
     "login": "../../node_modules/codecept_tools/loginPartitionExecutor.js"
   },
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
@@ -25,7 +27,12 @@
   "hooks": [],
   "tests": "./scenarios/publisher_*",
   "timeout": 36000,
-  "name": "publisher 3 async",
-  "loginScript": "./login_partition.js",
-  "threadsLimit": 5
+  "name": "publisher 3 prod",
+  "loginScript": "./login_prod.js",
+  "threadsLimit": 5,
+  "vars": {
+    "type": "prod",
+    "publisher": "42505",
+    "project": "28686"
+  }
 }

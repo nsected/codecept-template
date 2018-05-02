@@ -3,6 +3,6 @@ module.exports =  async function test_suit_example(config, done, libse){
     allure.createStep('!!!!!Projects', () => {})();
 
     await libse.open('/1/projects');
-    await libse.verifyText(by.css('h5'), libse.masklist.any_word)
+    await libse.verifyText(by.css('h5 a'), libse.masklist.any_word)
 
 };

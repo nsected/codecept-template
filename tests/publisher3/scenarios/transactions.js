@@ -1,10 +1,10 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!test transactions', () => {})();
+Feature('test transactions');
+Scenario('test transactions', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.click(by.css('.nav-item-finance'));
-    await libse.type(by.css('.search-query'), 'тест');
-    await libse.click(by.css('[type="submit"]'));
-    await libse.waitForTextMatch(by.css('.highlight-cell'), /тест/);
+    await I.clickOn('.nav-item-finance');
+    await I.fillField('.search-query', 'тест');
+    await I.clickOn('[type="submit"]');
+    await I.elementTextEquals('.highlight-cell', /тест/)
 
-};
+});

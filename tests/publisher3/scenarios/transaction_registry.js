@@ -1,10 +1,8 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!Transaction Registry finance', () => {})();
+Feature('Transaction Registry finance');
+Scenario('Transaction Registry finance', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/finance/transactions');
-    await libse.click(by.css('[type="submit"]'));
-    await libse.verifyText(by.css('[dir="ltr"]'), libse.masklist.currency_any)
-
-
-};
+    await I.amOnPage(`/${vars.publisher}/finance/transactions`);
+    await I.clickOn('[type="submit"]');
+    await I.elementTextEquals('[dir="ltr"]', maskList.currency_any)
+});

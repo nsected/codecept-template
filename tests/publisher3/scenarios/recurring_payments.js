@@ -1,9 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!Recurring payments', () => {})();
+Feature('Recurring payments');
+Scenario('Recurring payments', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/finance/cards/recurring-charges');
-    await libse.verifyText(by.css('[dir="ltr"]'), libse.masklist.currency_any)
-
-
-};
+    await I.amOnPage(`/${vars.publisher}/finance/cards/recurring-charges`);
+    await I.elementTextEquals('[dir="ltr"]', maskList.currency_any)
+});

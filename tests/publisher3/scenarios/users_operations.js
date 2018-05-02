@@ -1,9 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!Transaction Search', () => {})();
+Feature('Transaction Search');
+Scenario('Transaction Search', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/users/operations');
-    await libse.verifyText(by.css('.project-users time'), libse.masklist.short_date)
-
-
-};
+    await I.amOnPage(`/${vars.publisher}/users/operations`);
+    await I.elementTextEquals('.project-users time', maskList.short_date)
+});

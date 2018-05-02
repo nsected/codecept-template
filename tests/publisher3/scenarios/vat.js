@@ -1,9 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!VAT Statistics', () => {})();
+Feature('VAT Statistics');
+Scenario('VAT Statistics', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/analytics/vat');
-    await libse.verifyText(by.css('.data-table td'), libse.masklist.any_word)
-
-
-};
+    await I.amOnPage(`/${vars.publisher}/analytics/vat`);
+    await I.elementTextEquals('.data-table td', maskList.any_word)
+});

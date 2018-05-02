@@ -1,8 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('Promotions', () => {})();
-
-    await libse.open('/1/promotions');
-    let elemDate = await libse.getDate(by.css('.described-time-value'));
-    await libse.assert.ok(elemDate instanceof Date);
-};
+Feature('Promotions');
+Scenario('Promotions', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
+    await I.amOnPage(`/${vars.publisher}/promotions`);
+    let elemDate = await I.grabDateFrom('.described-time-value');
+    I.assert.ok(elemDate instanceof Date);
+});

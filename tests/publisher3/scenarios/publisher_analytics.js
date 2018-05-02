@@ -1,6 +1,7 @@
-Feature('!!!!!test analytics');
-Scenario('transactions_search', async (I, login, vars, maskList) => {
+Feature('!!!!!');
+Scenario('!!!!!!!!!!', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
-    await I.amOnPage(`/${vars.publisher}/analytics/geo`);
-    await I.elementTextEquals('.sorting_1', maskList.digit)
+
+    await I.amOnPage(`/${vars.publisher}/aaaaaaaaaa`);
+    await I.elementTextEquals('aaaaaaaaaaa', maskList.digit)
 });

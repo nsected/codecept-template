@@ -1,8 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('!!!!!test dashboard', () => {})();
+Feature('test dashboard');
+Scenario('test dashboard', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/dashboard');
-    await libse.verifyText(by.css('[dir="ltr"]'), libse.masklist.digit)
-
-};
+    await I.amOnPage(`/${vars.publisher}/dashboard`);
+    await I.elementTextEquals('[dir="ltr"]', maskList.digit)
+});

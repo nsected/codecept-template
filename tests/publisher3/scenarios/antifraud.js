@@ -1,8 +1,7 @@
-module.exports =  async function test_suit_example(config, done, libse){
-    const by = libse.By;
-    allure.createStep('antifraud', () => {})();
+Feature('antifraud');
+Scenario('antifraud', async (I, login, vars, maskList) => {
+    await require('../publisher_smart_login')(I, login, vars);
 
-    await libse.open('/1/antifraud/blacklist/logs');
-    await libse.verifyText(by.css('.projectTypeColumnClass'), libse.masklist.any_word)
-
-};
+    await I.amOnPage(`/${vars.publisher}/antifraud/blacklist/logs`);
+    await I.elementTextEquals('.projectTypeColumnClass', maskList.any_word)
+});

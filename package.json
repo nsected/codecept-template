@@ -15,18 +15,18 @@
   "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",
   "dependencies": {
-    "codecept_tools": "git+https://github.com/nsected/codecept_tools.git",
-    "xsolla-community-helpers": "git+https://github.com/nsected/xsolla-community-helpers.git",
     "allure-commandline": "^2.5.0",
+    "codecept_tools": "git+https://github.com/nsected/codecept_tools.git",
     "codeceptjs": "^1.1.7",
     "glob": "^7.1.2",
     "mocha-allure-reporter": "^1.3.2",
     "mocha-multi": "^1.0.1",
     "rimraf": "^2.6.2",
-    "selenium-standalone": "^6.13.0",
+    "selenium-standalone": "^6.14.0",
     "wdio-dot-reporter": "0.0.9",
     "wdio-mocha-framework": "^0.5.13",
     "wdio-selenium-standalone-service": "0.0.10",
-    "webdriverio": "^4.12.0"
+    "webdriverio": "^4.12.0",
+    "xsolla-community-helpers": "git+https://github.com/nsected/xsolla-community-helpers.git"
   }
 }

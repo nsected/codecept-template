@@ -4,8 +4,8 @@
     "WebDriverIO": {
       "url": "https://demo-publisher.xsolla.com",
       "browser": "chrome",
-      "smartWait": 30001,
-      "waitForTimeout": 30001,
+      "smartWait": 30000,
+      "waitForTimeout": 30000,
       "host": "localhost",
       "port": "4444",
       "path": "/wd/hub",
@@ -19,15 +19,15 @@
   "include": {
     "vars": "./vars.js",
     "I": "../../node_modules/xsolla-community-helpers/page_objects/steps_file.js",
+    "maskList": "../../node_modules/xsolla-community-helpers/utils/maskList.js",
     "login": "../../node_modules/codecept_tools/loginPartitionExecutor.js"
   },
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./scenarios/*.js",
+  "tests": "./scenarios/promotions.js",
   "timeout": 36000,
   "name": "publisher 3 demo",
-  "loginScript": "./login_demo.js",
   "threadsLimit": 5,
   "vars": {
     "type": "demo",

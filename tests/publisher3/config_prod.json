@@ -6,7 +6,7 @@
       "browser": "chrome",
       "smartWait": 30000,
       "waitForTimeout": 30000,
-      "host": "localhost",
+      "host": "seleniumgrid.srv.local",
       "port": "4444",
       "path": "/wd/hub",
       "desiredCapabilities": {
@@ -25,14 +25,16 @@
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./scenarios/promotions.js",
+  "tests": "./scenarios/*.js",
   "timeout": 36000,
   "name": "publisher 3 prod",
   "loginScript": "./login_prod.js",
   "threadsLimit": 5,
   "vars": {
     "type": "prod",
-    "publisher": "42505",
-    "project": "28686"
+    "publisher": "2340",
+    "project": "28686",
+    "email": "testpublishertestpublisher@gmail.com",
+    "password": "Testpublisher12345"
   }
 }

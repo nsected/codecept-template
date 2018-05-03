@@ -4,8 +4,8 @@
   "description": "A codecept.js reference project",
   "main": "",
   "scripts": {
-    "prod_no_v": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_prod.json --async",
-    "demo_no_v": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_demo.json --async",
+    "prod_no_v": "npx codecept_tools run --config ./tests/publisher3/config_prod.json --async",
+    "demo_no_v": "npx codecept_tools run --config ./tests/publisher3/config_demo.json --async",
     "publisher3_prod": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_prod.json --async --verbose",
     "publisher3_demo": "npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_demo.json --async --verbose",
     "report": "rimraf allure-report && allure generate allure-results && allure open",

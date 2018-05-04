@@ -1,5 +1,5 @@
-Feature('Transaction Search');
-Scenario('Transaction Search', async (I, login, vars, maskList) => {
+Feature('Users operations');
+Scenario('Users operations', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 
     await I.amOnPage(`/${vars.publisher}/users/operations`);

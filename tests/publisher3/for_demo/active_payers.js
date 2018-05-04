@@ -1,4 +1,4 @@
-Feature('Active payers');
+Feature('0Active payers');
 Scenario('Active payers', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

@@ -1,4 +1,4 @@
-Feature('Projects');
+Feature('2Projects');
 Scenario('Projects', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

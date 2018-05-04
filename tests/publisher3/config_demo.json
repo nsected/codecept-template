@@ -26,7 +26,7 @@
   "teardown": null,
   "hooks": [],
   "tests": "./+(scenarios|for_demo)/*.js",
-  "timeout": 56000,
+  "timeout": 53000,
   "name": "publisher 3 demo",
   "threadsLimit": 2,
   "vars": {

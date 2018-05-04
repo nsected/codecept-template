@@ -10,7 +10,8 @@
     "demo_verbose": "rimraf allure-results && npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_demo.json --async --verbose",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_start": "selenium-standalone start",
-    "deploy": "npm install &&  selenium-standalone install"
+    "deploy": "npm install &&  selenium-standalone install",
+    "update": "rimraf node_modules/codecept_tools && rimraf node_modules/xsolla-community-helpers && npm install"
   },
   "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",

@@ -25,7 +25,7 @@
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./scenarios/*.js",
+  "tests": "./+(scenarios|for_demo)/*.js",
   "timeout": 56000,
   "name": "publisher 3 demo",
   "threadsLimit": 2,

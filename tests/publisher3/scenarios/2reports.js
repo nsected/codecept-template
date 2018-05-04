@@ -4,5 +4,7 @@ Scenario('reports', async (I, login, vars, maskList) => {
 
     await I.amOnPage(`/${vars.publisher}/finance/reports`);
     await I.clickOn('.fa-search');
-    await I.elementTextEquals('.described-time-value', maskList.short_date)
+    await I.clickOn('//*[@class="project-filter-tab"]');
+    await I.clickOn('//*[@class="tab-pane fade project-filter-tab active in"]//button[@type="submit"]');
+    await I.elementTextEquals('//time', maskList.short_date)
 });

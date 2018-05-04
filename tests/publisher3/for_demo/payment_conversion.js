@@ -1,5 +1,5 @@
-Feature('Conversion');
-Scenario('Conversion', async (I, login, vars, maskList) => {
+Feature('payment Conversion');
+Scenario('payment conversion ', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 
     await I.amOnPage(`/${vars.publisher}/analytics/payment-conversion`);

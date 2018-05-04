@@ -11,7 +11,7 @@
       "path": "/wd/hub",
       "desiredCapabilities": {
         "chromeOptions": {
-          "args": ["--window-size=1920,1080" ]
+          "args": [ "--headless", "--disable-gpu", "--window-size=1920,1080" ]
         }
       }
     }
@@ -26,7 +26,7 @@
   "teardown": null,
   "hooks": [],
   "tests": "./scenarios/*.js",
-  "timeout": 36000,
+  "timeout": 56000,
   "name": "publisher 3 prod",
   "loginScript": "./login_prod.js",
   "threadsLimit": 5,
@@ -35,6 +35,6 @@
     "publisher": "2340",
     "project": "28686",
     "email": "testpublishertestpublisher@gmail.com",
-    "password": ""
+    "password": "Testpublisher12345"
   }
 }

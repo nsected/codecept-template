@@ -11,7 +11,7 @@
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_start": "selenium-standalone start",
     "deploy": "npm install &&  selenium-standalone install",
-    "update": "rimraf node_modules/codecept_tools && rimraf node_modules/xsolla-community-helpers && npm install"
+    "update_tools_and_helpers": "rimraf node_modules/codecept_tools && rimraf node_modules/xsolla-community-helpers && npm install"
   },
   "author": "Mustaev Denis <d.mustaev@xsolla.com>",
   "license": "ISC",

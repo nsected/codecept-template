@@ -28,7 +28,7 @@
   "tests": "./+(scenarios|for_demo)/*.js",
   "timeout": 56000,
   "name": "publisher 3 demo",
-  "threadsLimit": 3,
+  "threadsLimit": 2,
   "vars": {
     "type": "demo",
     "publisher": "1",

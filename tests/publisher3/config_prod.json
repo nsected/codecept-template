@@ -29,7 +29,7 @@
   "timeout": 56000,
   "name": "publisher 3 prod",
   "loginScript": "./login_prod.js",
-  "threadsLimit": 5,
+  "threadsLimit": 4,
   "vars": {
     "type": "prod",
     "publisher": "2340",

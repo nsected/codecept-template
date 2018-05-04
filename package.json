@@ -6,8 +6,8 @@
   "scripts": {
     "publisher3_prod": "rimraf allure-results && npx codecept_tools run --config ./tests/publisher3/config_prod.json --async",
     "publisher3_demo": "rimraf allure-results && npx codecept_tools run --config ./tests/publisher3/config_demo.json --async",
-    "prod_v": "rimraf allure-results && npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_prod.json --async --verbose",
-    "demo_v": "rimraf allure-results && npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_demo.json --async --verbose",
+    "prod_verbose": "rimraf allure-results && npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_prod.json --async --verbose",
+    "demo_verbose": "rimraf allure-results && npx codecept_tools run --params '--debug,--steps' --config ./tests/publisher3/config_demo.json --async --verbose",
     "report": "rimraf allure-report && allure generate allure-results && allure open",
     "selenium_start": "selenium-standalone start",
     "deploy": "npm install &&  selenium-standalone install"

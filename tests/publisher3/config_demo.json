@@ -1,5 +1,4 @@
 {
-  "todo": "выход с кодом = кол-ву ошибочных тестов",
   "output": "../../tmp/fail_screens",
   "helpers": {
     "WebDriverIO": {

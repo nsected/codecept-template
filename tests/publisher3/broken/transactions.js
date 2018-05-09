@@ -1,4 +1,5 @@
-Feature('test transactions');
+const config = require('codeceptjs').config.get();
+Feature('test transactions', {timeout: config.timeout, retries: config.retries});
 Scenario('test transactions', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

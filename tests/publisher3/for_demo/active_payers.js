@@ -1,4 +1,5 @@
-Feature('0Active payers');
+const config = require('codeceptjs').config.get();
+Feature('0Active payers', {timeout: config.timeout, retries: config.retries});
 Scenario('Active payers', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

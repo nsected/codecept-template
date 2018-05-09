@@ -1,4 +1,5 @@
-Feature('Campaigns by coupons');
+const config = require('codeceptjs').config.get();
+Feature('Campaigns by coupons', {timeout: config.timeout, retries: config.retries});
 Scenario('Campaigns by coupons', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

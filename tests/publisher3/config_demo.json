@@ -1,4 +1,5 @@
 {
+  "todo": "выход с кодом = кол-ву ошибочных тестов",
   "output": "../../tmp/fail_screens",
   "helpers": {
     "WebDriverIO": {
@@ -27,6 +28,7 @@
   "hooks": [],
   "tests": "./+(scenarios|for_demo)/*.js",
   "timeout": 53000,
+  "retries": 3,
   "name": "publisher 3 demo",
   "threadsLimit": 2,
   "vars": {

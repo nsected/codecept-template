@@ -1,4 +1,5 @@
-Feature('Payment systems list');
+const config = require('codeceptjs').config.get();
+Feature('Payment systems list', {timeout: config.timeout, retries: config.retries});
 Scenario('Payment systems list', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

@@ -1,4 +1,5 @@
-Feature('payment Conversion');
+const config = require('codeceptjs').config.get();
+Feature('payment Conversion', {timeout: config.timeout, retries: config.retries});
 Scenario('payment conversion ', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

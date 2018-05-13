@@ -8,3 +8,4 @@ Scenario('Company info', async (I, login, vars, maskList) => {
     await I.seeElement(`//*[@value="demo_api_key"]`);
     await I.seeElement(`//*[@value="USD"]`);
 });
+

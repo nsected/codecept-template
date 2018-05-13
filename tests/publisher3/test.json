@@ -25,7 +25,7 @@
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./scenarios/0*",
+  "tests": "./scenarios/0111*",
   "name": "publisher 3 prod",
   "loginScript": "",
   "timeout": 53000,

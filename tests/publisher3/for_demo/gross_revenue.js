@@ -1,4 +1,5 @@
-Feature('Gross Revenue');
+const config = require('codeceptjs').config.get();
+Feature('Gross Revenue', {timeout: config.timeout, retries: config.retries});
 Scenario('Gross Revenue', async (I, login, vars, maskList) => {
     await require('../publisher_smart_login')(I, login, vars);
 

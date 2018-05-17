@@ -25,9 +25,9 @@
   "bootstrap": "../../node_modules/codecept_tools/eventsHandler.js",
   "teardown": null,
   "hooks": [],
-  "tests": "./scenarios/*.js",
+  "tests": "./scenarios/0111*",
   "name": "publisher 3 prod",
-  "loginScript": "./login_prod.js",
+  "loginScript": "",
   "timeout": 53000,
   "retries": 0,
   "threadsLimit": 4,
@@ -35,7 +35,7 @@
     "type": "prod",
     "publisher": "2340",
     "project": "28686",
-    "email": "testpublishertestpublisher@gmail.com",
-    "password": "TestTestTest111"
+    "email": "",
+    "password": ""
   }
 }
